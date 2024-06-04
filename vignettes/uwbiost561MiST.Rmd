@@ -1,0 +1,84 @@
+---
+title: "uwbiost561MiST"
+author: "Lu Bai"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{uwbiost561MiST}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This is an simple illustration for using the package MiST to implement set-based genetic association test under mixed effects models. To form the input data, make sure that the columns of the data are arranged in the following order [Y X G], where Y is an outcome variable, X is a matrix of confounder(s), and G is a matrix of genotype(s). MiST allows for multiple confounders (dimension is specified by option d), and multiple variants (dimension is specified by option p).
+
+Several R packages are called in MiST and should be installed beforehand. These include:
+
+- CompQuadForm (note: built under R version 3.3.2)
+- Parallel
+
+The main function to implement the set-based test is MiST. 
+
+The references for the methods are:
+
+- Su Y-R, Di C, Bien S, ..., Hsu L (2018) A Mixed-Effects Model for Powerful Association Tests in Integrative Functional Genomics. American Journal of Human Genetics 102: 904-919. 
+
+The following is an example of having simple burden score (weight being 1's for all variants) and variance component test in MiST.
+
+## Generate genetic data
+
+First, we generate a genetic dataset suitable for the MiST function:
+
+```{r}
+library(uwbiost561MiST)
+
+# Y: binary outcome variable. a vector of length n.
+# X: d confounders, either a nx1 vector or nxd matrix if d>1.
+# G: genotypes of varaints. a n*p matrix.
+
+# Data generation
+set.seed(1234)
+data <- uwbiost561MiST::get_genetic_data(n = 2000, prob=0.5, 
+                         n_unif=10, min=0.001,max=0.01, 
+                         prob_X=0.5,
+                         n_norm=10, mean=0,sd=0.5)
+print(head(data))
+
+```
+
+## Run the MiST function 
+
+Then, we run the main function to implement the set-based test:
+
+```{r}
+set.seed(1234)
+data <- uwbiost561MiST::get_genetic_data(n = 2000,
+                         n_unif=10, min=0.001,max=0.01,
+                         n_norm=10)
+d = 1
+p = 10
+
+mist <- uwbiost561MiST::MiST(data = data,
+              outcome_type = "Binary",
+              d = d,
+              p = p,
+              R = 1,
+              weight_method = "User"
+)
+print(mist)
+```
+
+## Summarize the important result into a table
+
+We can create a table that summarizes only the statistics and p-values from the result.
+
+```{r}
+uwbiost561MiST::get_table(mist)
+```
+

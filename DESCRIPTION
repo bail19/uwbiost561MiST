@@ -1,16 +1,21 @@
 Package: uwbiost561MiST
-Title: What the Package Does (One Line, Title Case)
+Title: Set-Based Mixed Effects Score Tests for Assessing Genetic
+        Association between SNPs and Phenotype
 Version: 0.0.0.9000
-Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+Author: Yu-Ru Su, Li Hsu
+Maintainer: Yu-Ru Su <piccoloegg@gmail.com>
+Description: Functions to implement set-based score tests for association of a set of SNPs with either continuous or dichotomous outcomes under mixed effects models. It includes burden-type test allowing for external weights for each SNP in the set, variance component-based association test, and three combination tests, oMiST, aMiST and fMiST, based on combinations of the previous two tests. Set-level pvalues are produced and returned.
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
+Imports: 
+    CompQuadForm (>= 1.4.3),
+    parallel,
+    stats
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat
 VignetteBuilder: knitr
+URL: https://bail19.github.io/uwbiost561MiST/
