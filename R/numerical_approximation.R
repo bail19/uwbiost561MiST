@@ -187,7 +187,7 @@ pvalue_minimizePValue_davies = function(u_f,u_r,df_f,lambda_r,min_pvalue=NULL,qu
   return(pvalue)
 }
 
-pvalue_minimizePValue_liu = function(u_f,u_r,df_f,lambda_r,min_pvalue=NULL,acc=5e-10,lim=1e4,ChisqApp="4M"){
+pvalue_minimizePValue_liu = function(u_f,u_r,df_f,lambda_r,min_pvalue=NULL,acc=5e-10,lim=1e4,ChisqApp="4M", pvalue.r=pvalue.r,pvalue.f=pvalue.f, weight=weight){
   if(is.null(min_pvalue)){
     p_rho = function(rho,df_f,lambda_r,u_f,u_r,acc=5e-10){
       pvalue = CompQuadForm::davies(q=rho*u_f+(1-rho)*u_r,
